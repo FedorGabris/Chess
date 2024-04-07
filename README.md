@@ -1,2 +1,2 @@
-Created in Intellij, using Java 21.
-Created as JavaFX project using Maven.
+Chess game.
+Created in Intellij as a JavaFX project, using Maven and Java 21.
