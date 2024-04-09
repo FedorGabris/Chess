@@ -1,7 +1,5 @@
 package View;
 
-import Controller.TurnController;
-import Model.Grid;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -9,10 +7,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Board extends Application {
+    private GridPane board;
+    private final HashMap<Button, Integer> buttonsMap = new HashMap<>();
+
+    public HashMap<Button, Integer> getButtonsMap() {
+        return buttonsMap;
+    }
 
     public static void printImage(GridPane board, int row, int col, String imageLocation) {
         Image pawnImage = new Image(Board.class.getResourceAsStream(imageLocation));
@@ -31,8 +35,7 @@ public class Board extends Application {
     @Override
     public void start(Stage primaryStage) {
         GridPane board = new GridPane();
-        TurnController turnController = new TurnController(board);
-        Grid grid = new Grid();
+        this.board = board;
 
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -43,20 +46,20 @@ public class Board extends Application {
                 } else {
                     button.setStyle("-fx-base: #CD853F;");
                 }
-                int finalRow = row;
-                int finalCol = col;
-                button.setOnAction(event -> turnController.chooseFigure(finalRow, finalCol));
+                int buttonValue = (row * 10) + col;
+                buttonsMap.put(button, buttonValue);
                 board.add(button, row, col);
 
             }
         }
-        grid.initializeGrid(turnController);
-        turnController.setGrid(grid);
-
         Scene scene = new Scene(board, 640, 640);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Chess");
         primaryStage.show();
+    }
+
+    public GridPane getBoard() {
+        return board;
     }
 
     public static void possibleMoveDisplay(GridPane board, ArrayList<Integer> possibleMoves) {

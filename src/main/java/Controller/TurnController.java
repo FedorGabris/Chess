@@ -4,20 +4,31 @@ import Model.Grid;
 import Model.King;
 import Model.Piece;
 import Model.PossibleCheck;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static View.Board.*;
 
 public class TurnController {
 
     private Grid grid;
-    private final GridPane board;
+    private GridPane board;
     private PossibleCheck possibleCheck;
+    private final String whitePlayerName;
+    private final String blackPlayerName;
+    private final HashMap<Button, Integer> buttonsMap;
 
-    public TurnController(GridPane board) {
+    public TurnController(String whitePlayerName, String blackPlayerName, GridPane board, HashMap<Button, Integer> buttonsMap) {
+        this.whitePlayerName = whitePlayerName;
+        this.blackPlayerName = blackPlayerName;
         this.board = board;
+        this.buttonsMap = buttonsMap;
+        setButtons();
     }
 
     public void setGrid(Grid grid) {
@@ -48,6 +59,15 @@ public class TurnController {
         TurnData.getInstance().setBlackKingPos(address);
     }
 
+    private void setButtons() {
+        for (Map.Entry<Button, Integer> entry : buttonsMap.entrySet()) {
+            Button button = entry.getKey();
+            Integer value = entry.getValue();
+            int col = value % 10;
+            int row = (value - col) / 10;
+            button.setOnAction(actionEvent -> chooseFigure(row, col));
+        }
+    }
 
     public void chooseFigure(int col, int row) {
         TurnData turnData = TurnData.getInstance();
