@@ -50,7 +50,7 @@ public class Board extends Application {
 
             }
         }
-        grid.initializeGrid(board, turnController);
+        grid.initializeGrid(turnController);
         turnController.setGrid(grid);
 
         Scene scene = new Scene(board, 640, 640);
@@ -81,7 +81,7 @@ public class Board extends Application {
         }
     }
 
-    public static void pointCurrentPiece(GridPane board, int row, int col) {
+    public static void pointOutCurrentPiece(GridPane board, int row, int col) {
         Button button = (Button) board.getChildren().get(row + 8 * col);
         button.setStyle("-fx-base: #B22222;");
     }
