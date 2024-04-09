@@ -2,6 +2,9 @@ package Model;
 
 import Controller.TurnController;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public abstract class Piece {
     private final boolean isWhite;
@@ -115,5 +118,27 @@ public abstract class Piece {
             }
         }
         return !isCheck;
+    }
+
+    protected void checkForChecks (Grid grid, ArrayList<Integer> possibleChecks) {
+        ExecutorService executor = Executors.newCachedThreadPool();
+
+        Future<ArrayList<Integer>> future = executor.submit(() -> {
+            ArrayList<Integer> possibleMovesForPiece = new ArrayList<>();
+            possibleMove(grid, possibleMovesForPiece, false);
+            return possibleMovesForPiece;
+        });
+
+        try {
+            ArrayList<Integer> possibleMovesForPiece = future.get();
+
+            synchronized (possibleChecks) {
+                possibleChecks.addAll(possibleMovesForPiece);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        executor.shutdown();
     }
 }

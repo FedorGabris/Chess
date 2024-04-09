@@ -3,6 +3,9 @@ package Model;
 import Controller.TurnController;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Rook extends Piece implements PieceFollower{
 
@@ -52,6 +55,6 @@ public class Rook extends Piece implements PieceFollower{
 
     @Override
     public void allChecks(Grid grid, ArrayList<Integer> possibleChecks) {
-        possibleMove(grid, possibleChecks, false);
+        super.checkForChecks(grid, possibleChecks);
     }
 }

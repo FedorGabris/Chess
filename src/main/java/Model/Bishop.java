@@ -50,6 +50,6 @@ public class Bishop extends Piece implements PieceFollower{
 
     @Override
     public void allChecks(Grid grid, ArrayList<Integer> possibleChecks) {
-        possibleMove(grid, possibleChecks, false);
+        super.checkForChecks(grid, possibleChecks);
     }
 }
