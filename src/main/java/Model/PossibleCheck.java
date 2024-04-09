@@ -26,7 +26,7 @@ public class PossibleCheck {
     }
 
     public ArrayList<Piece> getBlackPieces() {
-        return whitePieces;
+        return blackPieces;
     }
 
     public void removePiece(Piece piece) {
