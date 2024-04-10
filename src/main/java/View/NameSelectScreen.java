@@ -1,10 +1,13 @@
 package View;
 
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -39,19 +42,28 @@ public class NameSelectScreen {
         this.blackPlayerField = blackPlayerField;
         Button startButton = new Button("Start");
         this.startButton = startButton;
-        loginBox.getChildren().addAll(
-                new Label("White Player Name:"),
-                whitePlayerField,
-                new Label("Black Player Name:"),
-                blackPlayerField,
-                startButton
-        );
 
-        Scene loginScene = new Scene(loginBox, 300, 200);
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20));
+
+        gridPane.add(new Label("White Player Name:"), 0, 0);
+        gridPane.add(whitePlayerField, 0, 1);
+        gridPane.add(new Label("Black Player Name:"), 2, 0);
+        gridPane.add(blackPlayerField, 2, 1);
+
+        GridPane.setHalignment(startButton, HPos.CENTER);
+        gridPane.add(startButton, 1, 1);
+
+        loginBox.getChildren().add(gridPane);
+
+        Scene loginScene = new Scene(loginBox, 425, 150);
         stage.setScene(loginScene);
-        stage.setTitle("Chess - Login");
+        stage.setTitle("Chess - Choose your names");
         stage.show();
     }
+
 
     public void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

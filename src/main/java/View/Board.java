@@ -18,6 +18,10 @@ public class Board extends Application {
         return buttonsMap;
     }
 
+    public GridPane getBoard() {
+        return board;
+    }
+
     public static void printImage(GridPane board, int row, int col, String imageLocation) {
         Image pawnImage = new Image(Board.class.getResourceAsStream(imageLocation));
         ImageView imageView = new ImageView(pawnImage);
@@ -58,9 +62,6 @@ public class Board extends Application {
         primaryStage.show();
     }
 
-    public GridPane getBoard() {
-        return board;
-    }
 
     public static void possibleMoveDisplay(GridPane board, ArrayList<Integer> possibleMoves) {
         for (Integer possibleMove : possibleMoves) {
