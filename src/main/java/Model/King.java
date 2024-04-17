@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class King extends Piece implements PieceFollower{
 
-    public King(boolean isWhite, boolean hasMoved, int row, int col, String location, TurnController turnController, PossibleCheck possibleCheck) {
-        super(isWhite, hasMoved, row, col, location, turnController, possibleCheck);
+    public King(boolean isWhite, int row, int col, String location, TurnController turnController, PossibleCheck possibleCheck) {
+        super(isWhite, row, col, location, turnController, possibleCheck);
     }
 
     @Override

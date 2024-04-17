@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class NameSelectScreen {
 
-    private Stage stage;
+    private final Stage stage;
     private Button startButton;
     private TextField whitePlayerField;
     private TextField blackPlayerField;
@@ -60,7 +60,7 @@ public class NameSelectScreen {
 
         Scene loginScene = new Scene(loginBox, 425, 150);
         stage.setScene(loginScene);
-        stage.setTitle("Chess - Choose your names");
+        stage.setTitle("Chess - Name Selector");
         stage.show();
     }
 

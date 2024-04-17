@@ -5,8 +5,8 @@ import Controller.TurnController;
 import java.util.ArrayList;
 
 public class Bishop extends Piece implements PieceFollower{
-    public Bishop(boolean isWhite, boolean hasMoved, int row, int col, String location, TurnController turnController, PossibleCheck possibleCheck) {
-        super(isWhite, hasMoved, row, col, location, turnController, possibleCheck);
+    public Bishop(boolean isWhite, int row, int col, String location, TurnController turnController, PossibleCheck possibleCheck) {
+        super(isWhite, row, col, location, turnController, possibleCheck);
     }
 
     @Override

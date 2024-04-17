@@ -3,14 +3,11 @@ package Model;
 import Controller.TurnController;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class Rook extends Piece implements PieceFollower{
 
-    public Rook(boolean isWhite, boolean hasMoved, int row, int col, String location, TurnController turnController, PossibleCheck possibleCheck) {
-        super(isWhite, hasMoved, row, col, location, turnController, possibleCheck);
+    public Rook(boolean isWhite, int row, int col, String location, TurnController turnController, PossibleCheck possibleCheck) {
+        super(isWhite, row, col, location, turnController, possibleCheck);
     }
 
     @Override

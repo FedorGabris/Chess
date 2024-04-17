@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 public class NameSelectController {
     private String whitePlayerName;
     private String blackPlayerName;
-    private NameSelectScreen nameSelectScreen;
+    private final NameSelectScreen nameSelectScreen;
 
     public NameSelectController(NameSelectScreen nameSelectScreen) {
         this.nameSelectScreen = nameSelectScreen;
@@ -31,7 +31,7 @@ public class NameSelectController {
                 throw new NameNotEnteredException("You have to pick a name!");
             }
             else if (whitePlayerName.equals(blackPlayerName)) {
-                throw new EqualNamesException("You cannot have two same names!");
+                throw new EqualNamesException("You cannot have the same name!");
             }
             this.whitePlayerName = whitePlayerName;
             this.blackPlayerName = blackPlayerName;

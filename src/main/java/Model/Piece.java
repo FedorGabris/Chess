@@ -15,9 +15,9 @@ public abstract class Piece {
     private final PossibleCheck possibleCheck;
     private final TurnController turnController;
 
-    public Piece(boolean isWhite, boolean hasMoved, int row, int col, String location, TurnController turnController, PossibleCheck possibleCheck) {
+    public Piece(boolean isWhite, int row, int col, String location, TurnController turnController, PossibleCheck possibleCheck) {
         this.isWhite = isWhite;
-        this.hasMoved = hasMoved;
+        this.hasMoved = false;
         this.row = row;
         this.col = col;
         this.location = location;

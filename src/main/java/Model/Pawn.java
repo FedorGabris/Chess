@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class Pawn extends Piece implements PieceFollower{
 
-    public Pawn(boolean isWhite, boolean hasMoved, int row, int col, String location, TurnController turnController, PossibleCheck possibleCheck) {
-        super(isWhite, hasMoved, row, col, location, turnController, possibleCheck);
+    public Pawn(boolean isWhite, int row, int col, String location, TurnController turnController, PossibleCheck possibleCheck) {
+        super(isWhite, row, col, location, turnController, possibleCheck);
     }
 
     @Override

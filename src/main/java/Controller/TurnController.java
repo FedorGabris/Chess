@@ -9,7 +9,6 @@ import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static View.Board.*;
@@ -17,7 +16,7 @@ import static View.Board.*;
 public class TurnController {
 
     private Grid grid;
-    private GridPane board;
+    private final GridPane board;
     private PossibleCheck possibleCheck;
     private final String whitePlayerName;
     private final String blackPlayerName;
@@ -135,6 +134,12 @@ public class TurnController {
             }
             if (turnPossibleMoves.isEmpty()) {
                 System.out.println("Check Mate!");
+                if (turnData.isWhiteMove()) {
+                    System.out.println(blackPlayerName + " won!");
+                }
+                else {
+                    System.out.println(whitePlayerName + " won!");
+                }
             }
         }
     }

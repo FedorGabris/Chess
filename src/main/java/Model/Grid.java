@@ -1,7 +1,6 @@
 package Model;
 
 import Controller.TurnController;
-import javafx.scene.layout.GridPane;
 
 public class Grid {
     private final Piece[][] grid;
@@ -13,50 +12,41 @@ public class Grid {
     }
 
     public void initializeGrid(TurnController turnController) {
+        BlackPieceFactory newBlackPiece = new BlackPieceFactory();
+        WhitePieceFactory newWhitePiece = new WhitePieceFactory();
+
         for (int i = 0; i < 8; i++) {
-            Pawn blackPawn = new Pawn(false, false, 1, i, "/pieceImages/blackPawn.png", turnController, possibleCheck);
-            grid[1][i] = blackPawn;
-            possibleCheck.addBlackPiece(blackPawn);
-            Pawn whitePawn = new Pawn(true, false, 6, i, "/pieceImages/whitePawn.png", turnController, possibleCheck);
-            grid[6][i] = whitePawn;
-            possibleCheck.addWhitePiece(whitePawn);
+            grid[1][i] = newBlackPiece.createPawn(1, i, turnController, possibleCheck);
+            possibleCheck.addBlackPiece(grid[1][i]);
+            grid[6][i] = newWhitePiece.createPawn(6, i, turnController, possibleCheck);
+            possibleCheck.addWhitePiece(grid[6][i]);
         }
         for (int i = 0; i < 8; i += 7) {
-            Rook blackRook = new Rook(false, false, 0, i, "/pieceImages/blackRook.png", turnController, possibleCheck);
-            grid[0][i] = blackRook;
-            possibleCheck.addBlackPiece(blackRook);
-            Rook whiteRook = new Rook(true, false, 7, i, "/pieceImages/whiteRook.png", turnController, possibleCheck);
-            grid[7][i] = whiteRook;
-            possibleCheck.addWhitePiece(whiteRook);
+            grid[0][i] = newBlackPiece.createRook(0, i, turnController, possibleCheck);
+            possibleCheck.addBlackPiece(grid[0][i]);
+            grid[7][i] = newWhitePiece.createRook(7, i, turnController, possibleCheck);
+            possibleCheck.addWhitePiece(grid[7][i]);
         }
         for (int i = 1; i < 7; i += 5) {
-            Knight blackKnight= new Knight(false, false,  0, i, "/pieceImages/blackKnight.png", turnController, possibleCheck);
-            grid[0][i] = blackKnight;
-            possibleCheck.addBlackPiece(blackKnight);
-            Knight whiteKnight = new Knight(true, false, 7, i, "/pieceImages/whiteKnight.png", turnController, possibleCheck);
-            grid[7][i] = whiteKnight;
-            possibleCheck.addWhitePiece(whiteKnight);
+            grid[0][i] = newBlackPiece.createKnight(0, i, turnController, possibleCheck);
+            possibleCheck.addBlackPiece(grid[0][i]);
+            grid[7][i] = newWhitePiece.createKnight(7, i, turnController, possibleCheck);
+            possibleCheck.addWhitePiece(grid[7][i]);
         }
         for (int i = 2; i < 6; i += 3) {
-            Bishop blackBishop = new Bishop(false, false, 0, i, "/pieceImages/blackBishop.png", turnController, possibleCheck);
-            grid[0][i] = blackBishop;
-            possibleCheck.addBlackPiece(blackBishop);
-            Bishop whiteBishop = new Bishop(true, false, 7, i, "/pieceImages/whiteBishop.png", turnController, possibleCheck);
-            grid[7][i] = whiteBishop;
-            possibleCheck.addWhitePiece(whiteBishop);
+            grid[0][i] = newBlackPiece.createBishop(0, i, turnController, possibleCheck);
+            possibleCheck.addBlackPiece(grid[0][i]);
+            grid[7][i] = newWhitePiece.createBishop(7, i, turnController, possibleCheck);
+            possibleCheck.addWhitePiece(grid[7][i]);
         }
-        King blackKing = new King(false, false, 0, 4, "/pieceImages/blackKing.png", turnController, possibleCheck);
-        grid[0][4] = blackKing;
-        possibleCheck.addBlackPiece(blackKing);
-        Queen blackQueen = new Queen(false, false, 0, 3, "/pieceImages/blackQueen.png", turnController, possibleCheck);
-        grid[0][3] = blackQueen;
-        possibleCheck.addBlackPiece(blackQueen);
-        King whiteKing = new King(true, false, 7, 4, "/pieceImages/whiteKing.png", turnController, possibleCheck);
-        grid[7][4] = whiteKing;
-        possibleCheck.addWhitePiece(whiteKing);
-        Queen whiteQueen = new Queen(true, false, 7, 3, "/pieceImages/whiteQueen.png", turnController, possibleCheck);
-        grid[7][3] = whiteQueen;
-        possibleCheck.addWhitePiece(whiteQueen);
+        grid[0][4] = newBlackPiece.createKing(0, 4, turnController, possibleCheck);
+        possibleCheck.addBlackPiece(grid[0][4]);
+        grid[0][3] = newBlackPiece.createQueen(0, 3, turnController, possibleCheck);
+        possibleCheck.addBlackPiece(grid[0][3]);
+        grid[7][4] = newWhitePiece.createKing(7, 4, turnController, possibleCheck);
+        possibleCheck.addWhitePiece(grid[7][4]);
+        grid[7][3] = newWhitePiece.createQueen(7, 3, turnController, possibleCheck);
+        possibleCheck.addWhitePiece(grid[7][3]);
 
         turnController.setPossibleCheck(possibleCheck);
     }
