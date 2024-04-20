@@ -4,7 +4,9 @@ import Controller.TurnController;
 
 public class Grid {
     private final Piece[][] grid;
-    private PossibleCheck possibleCheck;
+    private final PossibleCheck possibleCheck;
+    WhitePieceFactory newWhitePiece;
+    BlackPieceFactory newBlackPiece;
 
     public Grid() {
         grid = new Piece[8][8];
@@ -12,8 +14,8 @@ public class Grid {
     }
 
     public void initializeGrid(TurnController turnController) {
-        BlackPieceFactory newBlackPiece = new BlackPieceFactory();
-        WhitePieceFactory newWhitePiece = new WhitePieceFactory();
+        this.newBlackPiece = new BlackPieceFactory();
+        this.newWhitePiece = new WhitePieceFactory();
 
         for (int i = 0; i < 8; i++) {
             grid[1][i] = newBlackPiece.createPawn(1, i, turnController, possibleCheck);
@@ -65,5 +67,51 @@ public class Grid {
 
     public void setPiece(Piece piece, int row, int col) {
         grid[row][col] = piece;
+    }
+
+    public Piece createPiece(int chosenPiece, boolean white, int row, int col, TurnController turnController) {
+        setPiece(null, row, col);
+        Piece newPiece;
+        if(chosenPiece == 0) {
+            if (white) {
+                newPiece = newWhitePiece.createQueen(row, col, turnController, possibleCheck);
+                possibleCheck.addWhitePiece(newPiece);
+            }
+            else {
+                newPiece = newBlackPiece.createQueen(row, col, turnController, possibleCheck);
+                possibleCheck.addBlackPiece(newPiece);
+            }
+        }
+        else if(chosenPiece == 1) {
+            if (white) {
+                newPiece = newWhitePiece.createRook(row, col, turnController, possibleCheck);
+                possibleCheck.addWhitePiece(newPiece);
+            }
+            else {
+                newPiece = newBlackPiece.createRook(row, col, turnController, possibleCheck);
+                possibleCheck.addBlackPiece(newPiece);
+            }
+        }
+        else if(chosenPiece == 2) {
+            if (white) {
+                newPiece = newWhitePiece.createBishop(row, col, turnController, possibleCheck);
+                possibleCheck.addWhitePiece(newPiece);
+            }
+            else {
+                newPiece = newBlackPiece.createBishop(row, col, turnController, possibleCheck);
+                possibleCheck.addBlackPiece(newPiece);
+            }
+        }
+        else {
+            if (white) {
+                newPiece = newWhitePiece.createKnight(row, col, turnController, possibleCheck);
+                possibleCheck.addWhitePiece(newPiece);
+            }
+            else {
+                newPiece = newBlackPiece.createKnight(row, col, turnController, possibleCheck);
+                possibleCheck.addBlackPiece(newPiece);
+            }
+        }
+        return newPiece;
     }
 }

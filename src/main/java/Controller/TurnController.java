@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Grid;
-import Model.King;
-import Model.Piece;
-import Model.PossibleCheck;
+import Model.*;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
@@ -21,12 +18,14 @@ public class TurnController {
     private final String whitePlayerName;
     private final String blackPlayerName;
     private final HashMap<Button, Integer> buttonsMap;
+    private ReplacePawnController replacePawnController;
 
     public TurnController(String whitePlayerName, String blackPlayerName, GridPane board, HashMap<Button, Integer> buttonsMap) {
         this.whitePlayerName = whitePlayerName;
         this.blackPlayerName = blackPlayerName;
         this.board = board;
         this.buttonsMap = buttonsMap;
+        this.replacePawnController = null;
         setButtons();
     }
 
@@ -69,14 +68,18 @@ public class TurnController {
     }
 
     public void chooseFigure(int col, int row) {
+        if (this.replacePawnController != null) {
+            replacePawnController.closeWindow();
+            this.replacePawnController = null;
+        }
         TurnData turnData = TurnData.getInstance();
         boolean whiteMove = turnData.isWhiteMove();
-        int current = turnData.getCurrentFigure();
+        int currentPosition = turnData.getCurrentFigure();
         ArrayList<Integer> possibleMoves = turnData.getPossibleMoves();
         Piece piece = grid.getPiece(row, col);
         int buttonValue = (row * 10) + col;
 
-        if (current == 100) {
+        if (currentPosition == 100) {
             if (piece != null) {
                 if (whiteMove == piece.getIsWhite()) {
                     pointOutCurrentPiece(board, row, col);
@@ -87,59 +90,79 @@ public class TurnController {
 
             }
         }
-        else if (current == buttonValue) {
+        else if (currentPosition == buttonValue) {
             resetBoardDisplay(board);
             turnData.setCurrentFigure(100);
             possibleMoves.clear();
         }
         else if (possibleMoves.contains(buttonValue)) {
-            int currentCol = current % 10;
-            int currentRow = (current - currentCol) / 10;
-            removeImage(board, currentRow, currentCol);
+            int currentCol = currentPosition % 10;
+            int currentRow = (currentPosition - currentCol) / 10;
             Piece deletingPiece = grid.getPiece(row, col);
             if (deletingPiece != null) {
                 possibleCheck.removePiece(deletingPiece);
             }
             Piece movingPiece = grid.getPiece(currentRow, currentCol);
-            movingPiece.setNewRow(row);
-            movingPiece.setNewCol(col);
-            movingPiece.firstMove(true);
-            printImage(board, row, col, movingPiece.getLocation());
-            if (movingPiece instanceof King) {
-                if (whiteMove) {
-                    setWhiteKingPos(buttonValue);
-                }
-                else {
-                    setBlackKing(buttonValue);
-                }
-            }
-            resetBoardDisplay(board);
-            turnData.setCurrentFigure(100);
-            grid.movePiece(currentRow, currentCol, row, col);
-            grid.setNull(currentRow, currentCol);
-            turnData.setWhiteMove(!turnData.isWhiteMove());
-            possibleMoves.clear();
-            ArrayList <Integer> turnPossibleMoves = new ArrayList<>();
-            if (turnData.isWhiteMove()) {
-                ArrayList <Piece> allPieces = possibleCheck.getWhitePieces();
-                for (Piece allyPiece : allPieces) {
-                    allyPiece.possibleMove(grid, turnPossibleMoves, true);
-                }
+            if (movingPiece instanceof Pawn && (row == 7 || row == 0)) {
+                possibleCheck.removePiece(movingPiece);
+                this.replacePawnController = new ReplacePawnController(this, whiteMove, grid);
+                replacePawnController.replacePawn(currentRow, currentCol, row, col);
             }
             else {
-                ArrayList <Piece> allPieces = possibleCheck.getBlackPieces();
-                for (Piece allyPiece : allPieces) {
-                    allyPiece.possibleMove(grid, turnPossibleMoves, true);
-                }
+                finishMovement(row, col);
             }
-            if (turnPossibleMoves.isEmpty()) {
-                System.out.println("Check Mate!");
-                if (turnData.isWhiteMove()) {
-                    System.out.println(blackPlayerName + " won!");
-                }
-                else {
-                    System.out.println(whitePlayerName + " won!");
-                }
+        }
+    }
+
+    public void finishMovement(int row, int col) {
+        TurnData turnData = TurnData.getInstance();
+        boolean whiteMove = turnData.isWhiteMove();
+        int current = turnData.getCurrentFigure();
+        int currentCol = current % 10;
+        int currentRow = (current - currentCol) / 10;
+        int buttonValue = (row * 10) + col;
+        ArrayList<Integer> possibleMoves = turnData.getPossibleMoves();
+        Piece movingPiece = grid.getPiece(currentRow, currentCol);
+        movingPiece.setNewRow(row);
+        movingPiece.setNewCol(col);
+        movingPiece.firstMove(true);
+        removeImage(board, currentRow, currentCol);
+        printImage(board, row, col, movingPiece.getLocation());
+        if (movingPiece instanceof King) {
+            if (whiteMove) {
+                setWhiteKingPos(buttonValue);
+            }
+            else {
+                setBlackKing(buttonValue);
+            }
+        }
+        resetBoardDisplay(board);
+        turnData.setCurrentFigure(100);
+        grid.movePiece(currentRow, currentCol, row, col);
+        grid.setNull(currentRow, currentCol);
+        turnData.setWhiteMove(!turnData.isWhiteMove());
+        possibleMoves.clear();
+
+        ArrayList <Integer> turnPossibleMoves = new ArrayList<>();
+        if (turnData.isWhiteMove()) {
+            ArrayList <Piece> allPieces = possibleCheck.getWhitePieces();
+            for (Piece allyPiece : allPieces) {
+                allyPiece.possibleMove(grid, turnPossibleMoves, true);
+            }
+        }
+        else {
+            ArrayList <Piece> allPieces = possibleCheck.getBlackPieces();
+            for (Piece allyPiece : allPieces) {
+                allyPiece.possibleMove(grid, turnPossibleMoves, true);
+            }
+        }
+        if (turnPossibleMoves.isEmpty()) {
+            System.out.println("Check Mate!");
+            if (turnData.isWhiteMove()) {
+                System.out.println(blackPlayerName + " won!");
+            }
+            else {
+                System.out.println(whitePlayerName + " won!");
             }
         }
     }

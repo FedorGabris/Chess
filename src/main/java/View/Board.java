@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Board extends Application {
     private GridPane board;
@@ -23,7 +24,7 @@ public class Board extends Application {
     }
 
     public static void printImage(GridPane board, int row, int col, String imageLocation) {
-        Image pawnImage = new Image(Board.class.getResourceAsStream(imageLocation));
+        Image pawnImage = new Image(Objects.requireNonNull(Board.class.getResourceAsStream(imageLocation)));
         ImageView imageView = new ImageView(pawnImage);
         imageView.setFitWidth(60);
         imageView.setFitHeight(60);
