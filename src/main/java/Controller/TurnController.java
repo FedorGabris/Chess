@@ -84,6 +84,12 @@ public class TurnController {
                 if (whiteMove == piece.getIsWhite()) {
                     pointOutCurrentPiece(board, row, col);
                     piece.possibleMove(grid, possibleMoves, true);
+                    if (piece instanceof King) {
+                        if (piece.getHasMoved()) {
+                            King king = (King) piece;
+                            king.possibleCastle(grid, possibleMoves);
+                        }
+                    }
                     possibleMoveDisplayCall();
                     turnData.setCurrentFigure(buttonValue);
                 }
@@ -129,17 +135,31 @@ public class TurnController {
         removeImage(board, currentRow, currentCol);
         printImage(board, row, col, movingPiece.getLocation());
         if (movingPiece instanceof King) {
+            int kingPos;
             if (whiteMove) {
+                kingPos = getWhiteKingPos();
                 setWhiteKingPos(buttonValue);
             }
             else {
+                kingPos = getBlackKingPos();
                 setBlackKing(buttonValue);
+            }
+            if (buttonValue == kingPos + 2) {
+                Piece rook = grid.getPiece(row, 7);
+                grid.movePiece(row, 7, row, 5);
+                removeImage(board, row, 7);
+                printImage(board, row, 5, rook.getLocation());
+            }
+            else if (buttonValue == kingPos - 2) {
+                Piece rook = grid.getPiece(row, 0);
+                grid.movePiece(row, 0, row, 3);
+                removeImage(board, row, 0);
+                printImage(board, row, 3, rook.getLocation());
             }
         }
         resetBoardDisplay(board);
         turnData.setCurrentFigure(100);
         grid.movePiece(currentRow, currentCol, row, col);
-        grid.setNull(currentRow, currentCol);
         turnData.setWhiteMove(!turnData.isWhiteMove());
         possibleMoves.clear();
 

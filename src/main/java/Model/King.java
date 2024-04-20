@@ -46,6 +46,29 @@ public class King extends Piece implements PieceFollower{
         }
     }
 
+    public void possibleCastle(Grid grid, ArrayList<Integer> possibleMoves) {
+        int row = getRow();
+        int col = getCol();
+        Piece rightRook = grid.getPiece(row, 7);
+        Piece leftRook = grid.getPiece(row, 0);
+        if (rightRook != null && rightRook.getHasMoved()) {
+            boolean check1 = super.CheckExists(grid, row, col, row, col);
+            boolean check2 = super.CheckExists(grid, row, col, row, 5);
+            boolean check3 = super.CheckExists(grid, row, col, row, 6);
+            if (check1 && check2 && check3 && grid.isNull(row, 5) && grid.isNull(row, 6)) {
+                super.possibleMoveAction(possibleMoves, row, 6);
+            }
+        }
+        if (leftRook != null && leftRook.getHasMoved()) {
+            boolean check1 = super.CheckExists(grid, row, col, row, col);
+            boolean check2 = super.CheckExists(grid, row, col, row, 3);
+            boolean check3 = super.CheckExists(grid, row, col, row, 2);
+            if (check1 && check2 && check3 && grid.isNull(row, 3) && grid.isNull(row, 2) && grid.isNull(row, 1)) {
+                super.possibleMoveAction(possibleMoves, row, 2);
+            }
+        }
+    }
+
     @Override
     public void allChecks(Grid grid, ArrayList<Integer> possibleChecks) {
         super.checkForChecks(grid, possibleChecks);

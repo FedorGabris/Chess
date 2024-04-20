@@ -15,7 +15,7 @@ public class Pawn extends Piece implements PieceFollower{
         int y = this.getCol();
 
         if (this.getIsWhite()) {
-            if (!getHasMoved()) {
+            if (getHasMoved()) {
                 if (grid.getPiece(x - 1, y) == null) {
                     if (conditionalMoves) {
                         if (super.CheckExists(grid, x, y, x - 1, y)) {
@@ -26,7 +26,7 @@ public class Pawn extends Piece implements PieceFollower{
                         super.possibleMoveAction(possibleMoves, x - 1, y);
                     }
                 }
-                if (grid.getPiece(x - 2, y) == null) {
+                if (grid.getPiece(x - 1, y) == null && grid.getPiece(x - 2, y) == null) {
                     if (conditionalMoves) {
                         if (super.CheckExists(grid, x, y, x - 2, y)) {
                             super.possibleMoveAction(possibleMoves, x - 2, y);
@@ -77,7 +77,7 @@ public class Pawn extends Piece implements PieceFollower{
             }
         }
         else {
-            if (!getHasMoved()) {
+            if (getHasMoved()) {
                 if (grid.getPiece(x + 1, y) == null) {
                     if (conditionalMoves) {
                         if (super.CheckExists(grid, x, y, x + 1, y)) {
@@ -88,7 +88,7 @@ public class Pawn extends Piece implements PieceFollower{
                         super.possibleMoveAction(possibleMoves, x + 1, y);
                     }
                 }
-                if (grid.getPiece(x + 2, y) == null) {
+                if (grid.getPiece(x + 1, y) == null && grid.getPiece(x + 2, y) == null) {
                     if (conditionalMoves) {
                         if (super.CheckExists(grid, x, y, x + 2, y)) {
                             super.possibleMoveAction(possibleMoves, x + 2, y);

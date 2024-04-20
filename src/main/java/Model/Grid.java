@@ -59,14 +59,15 @@ public class Grid {
 
     public void movePiece(int currentRow, int currentCol, int newRow, int newCol) {
         grid[newRow][newCol] = grid[currentRow][currentCol];
-    }
-
-    public void setNull(int row, int col) {
-        grid[row][col] = null;
+        grid[currentRow][currentCol] = null;
     }
 
     public void setPiece(Piece piece, int row, int col) {
         grid[row][col] = piece;
+    }
+
+    public boolean isNull(int row, int col) {
+        return grid[row][col] == null;
     }
 
     public Piece createPiece(int chosenPiece, boolean white, int row, int col, TurnController turnController) {
