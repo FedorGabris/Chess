@@ -77,6 +77,8 @@ public class TurnController {
         int currentPosition = turnData.getCurrentFigure();
         ArrayList<Integer> possibleMoves = turnData.getPossibleMoves();
         Piece piece = grid.getPiece(row, col);
+        int lastWhiteMove = turnData.getLastWhiteMove();
+        int lastBlackMove = turnData.getLastBlackMove();
         int buttonValue = (row * 10) + col;
 
         if (currentPosition == 100) {
@@ -88,6 +90,14 @@ public class TurnController {
                         if (piece.getHasMoved()) {
                             King king = (King) piece;
                             king.possibleCastle(grid, possibleMoves);
+                        }
+                    }
+                    else if (piece instanceof Pawn pawn) {
+                        if (whiteMove && row == 3) {
+                            pawn.possibleEnPassant(possibleMoves, lastWhiteMove, lastBlackMove, whiteMove, buttonValue);
+                        }
+                        else if (!whiteMove && row == 4) {
+                            pawn.possibleEnPassant(possibleMoves, lastWhiteMove, lastBlackMove, whiteMove, buttonValue);
                         }
                     }
                     possibleMoveDisplayCall();
@@ -120,20 +130,20 @@ public class TurnController {
         }
     }
 
-    public void finishMovement(int row, int col) {
+    public void finishMovement(int newRow, int newCol) {
         TurnData turnData = TurnData.getInstance();
         boolean whiteMove = turnData.isWhiteMove();
         int current = turnData.getCurrentFigure();
         int currentCol = current % 10;
         int currentRow = (current - currentCol) / 10;
-        int buttonValue = (row * 10) + col;
+        int buttonValue = (newRow * 10) + newCol;
         ArrayList<Integer> possibleMoves = turnData.getPossibleMoves();
         Piece movingPiece = grid.getPiece(currentRow, currentCol);
-        movingPiece.setNewRow(row);
-        movingPiece.setNewCol(col);
+        movingPiece.setNewRow(newRow);
+        movingPiece.setNewCol(newCol);
         movingPiece.firstMove(true);
         removeImage(board, currentRow, currentCol);
-        printImage(board, row, col, movingPiece.getLocation());
+        printImage(board, newRow, newCol, movingPiece.getLocation());
         if (movingPiece instanceof King) {
             int kingPos;
             if (whiteMove) {
@@ -145,21 +155,52 @@ public class TurnController {
                 setBlackKing(buttonValue);
             }
             if (buttonValue == kingPos + 2) {
-                Piece rook = grid.getPiece(row, 7);
-                grid.movePiece(row, 7, row, 5);
-                removeImage(board, row, 7);
-                printImage(board, row, 5, rook.getLocation());
+                grid.movePiece(newRow, 7, newRow, 5);
+                Piece rook = grid.getPiece(newRow, 5);
+                rook.setNewCol(5);
+                rook.firstMove(true);
+                removeImage(board, newRow, 7);
+                printImage(board, newRow, 5, rook.getLocation());
             }
             else if (buttonValue == kingPos - 2) {
-                Piece rook = grid.getPiece(row, 0);
-                grid.movePiece(row, 0, row, 3);
-                removeImage(board, row, 0);
-                printImage(board, row, 3, rook.getLocation());
+                grid.movePiece(newRow, 0, newRow, 3);
+                Piece rook = grid.getPiece(newRow, 3);
+                rook.setNewCol(3);
+                rook.firstMove(true);
+                removeImage(board, newRow, 0);
+                printImage(board, newRow, 3, rook.getLocation());
             }
         }
         resetBoardDisplay(board);
         turnData.setCurrentFigure(100);
-        grid.movePiece(currentRow, currentCol, row, col);
+        int currentMove;
+        if (movingPiece instanceof Pawn) {
+            if (currentCol != newCol) {
+                if (grid.getPiece(newRow, newCol) == null) {
+                    Piece deleter = grid.getPiece(currentRow, newCol);
+                    grid.setNull(currentRow, newCol);
+                    possibleCheck.removePiece(deleter);
+                    removeImage(board, currentRow, newCol);
+                }
+            }
+            int rowDiff = newRow - currentRow;
+            if (rowDiff == 2 || rowDiff == -2) {
+                currentMove = buttonValue * 10;
+            }
+            else {
+                currentMove = buttonValue;
+            }
+        }
+        else {
+            currentMove = buttonValue;
+        }
+        if (whiteMove) {
+            turnData.setLastWhiteMove(currentMove);
+        }
+        else {
+            turnData.setLastBlackMove(currentMove);
+        }
+        grid.movePiece(currentRow, currentCol, newRow, newCol);
         turnData.setWhiteMove(!turnData.isWhiteMove());
         possibleMoves.clear();
 

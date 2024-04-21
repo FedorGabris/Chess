@@ -62,6 +62,10 @@ public class Grid {
         grid[currentRow][currentCol] = null;
     }
 
+    public void setNull(int row, int col) {
+        grid[row][col] = null;
+    }
+
     public void setPiece(Piece piece, int row, int col) {
         grid[row][col] = piece;
     }

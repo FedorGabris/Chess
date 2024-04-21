@@ -140,6 +140,29 @@ public class Pawn extends Piece implements PieceFollower{
         }
     }
 
+    public void possibleEnPassant(ArrayList<Integer> possibleMoves, int lastWhiteMove, int lastBlackMove, boolean whiteMove, int buttonValue) {
+        if (whiteMove) {
+            if (buttonValue == lastWhiteMove) {
+                if ((buttonValue - 1) * 10 == lastBlackMove) {
+                    possibleMoves.add(buttonValue - 11);
+                }
+                if ((buttonValue + 1) * 10 == lastBlackMove) {
+                    possibleMoves.add(buttonValue - 9);
+                }
+            }
+        }
+        else {
+            if (buttonValue == lastBlackMove) {
+                if ((buttonValue - 1) * 10 == lastBlackMove) {
+                    possibleMoves.add(buttonValue + 9);
+                }
+                if ((buttonValue + 1) * 10 == lastBlackMove) {
+                    possibleMoves.add(buttonValue + 11);
+                }
+            }
+        }
+    }
+
     @Override
     public void allChecks(Grid grid, ArrayList<Integer> possibleChecks) {
         super.checkForChecks(grid, possibleChecks);
