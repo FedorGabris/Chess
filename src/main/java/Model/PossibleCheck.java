@@ -13,12 +13,12 @@ public class PossibleCheck {
         possibleChecks = new ArrayList<>();
     }
 
-    public void addWhitePiece(Piece piece) {
-        whitePieces.add(piece);
-    }
-
-    public void addBlackPiece(Piece piece) {
-        blackPieces.add(piece);
+    public void addPiece(Piece piece) {
+        if (piece.getIsWhite()) {
+            whitePieces.add(piece);
+        } else {
+            blackPieces.add(piece);
+        }
     }
 
     public ArrayList<Piece> getWhitePieces() {

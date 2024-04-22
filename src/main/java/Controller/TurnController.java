@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import static View.Board.*;
 
 public class TurnController {
@@ -22,6 +23,7 @@ public class TurnController {
     private ReplacePawnController replacePawnController;
     private final Board boardScreen;
     private boolean gameNotOver;
+    private final ArrayList<Integer> turnPossibleMoves;
 
     public TurnController(String whitePlayerName, String blackPlayerName, GridPane board, HashMap<Button, Integer> buttonsMap, Board boardScreen) {
         this.whitePlayerName = whitePlayerName;
@@ -31,6 +33,7 @@ public class TurnController {
         this.replacePawnController = null;
         this.boardScreen = boardScreen;
         this.gameNotOver = true;
+        turnPossibleMoves = new ArrayList<>();
         setButtons();
     }
 
@@ -60,6 +63,14 @@ public class TurnController {
 
     public void setBlackKing(int address) {
         TurnData.getInstance().setBlackKingPos(address);
+    }
+
+    public String getWhitePlayerName() {
+        return whitePlayerName;
+    }
+
+    public String getBlackPlayerName() {
+        return blackPlayerName;
     }
 
     private void setButtons() {
@@ -95,7 +106,7 @@ public class TurnController {
                     pointOutCurrentPiece(board, row, col);
                     piece.possibleMove(grid, possibleMoves, true);
                     if (piece instanceof King) {
-                        if (piece.getHasMoved()) {
+                        if (piece.getHasMoved()/* && !turnData.isCheck()*/) {
                             King king = (King) piece;
                             king.possibleCastle(grid, possibleMoves);
                         }
@@ -211,8 +222,6 @@ public class TurnController {
         grid.movePiece(currentRow, currentCol, newRow, newCol);
         turnData.setWhiteMove(!turnData.isWhiteMove());
         possibleMoves.clear();
-
-        ArrayList <Integer> turnPossibleMoves = new ArrayList<>();
         if (turnData.isWhiteMove()) {
             ArrayList <Piece> allPieces = possibleCheck.getWhitePieces();
             for (Piece allyPiece : allPieces) {
@@ -227,12 +236,31 @@ public class TurnController {
         }
         if (turnPossibleMoves.isEmpty()) {
             this.gameNotOver = false;
-            EndScreen endScreen = new EndScreen();
+            ArrayList <Integer> possibleStaleMate = new ArrayList<>();
+            int kingPos;
             if (turnData.isWhiteMove()) {
-                endScreen.endGameScreen(blackPlayerName, false);
+                kingPos = turnData.getWhiteKingPos();
+                ArrayList <Piece> allPieces = possibleCheck.getBlackPieces();
+                for (Piece enemyPiece : allPieces) {
+                    enemyPiece.possibleMove(grid, possibleStaleMate, true);
+                }
             }
             else {
-                endScreen.endGameScreen(whitePlayerName, true);
+                kingPos = turnData.getBlackKingPos();
+                ArrayList <Piece> allPieces = possibleCheck.getWhitePieces();
+                for (Piece enemyPiece : allPieces) {
+                    enemyPiece.possibleMove(grid, possibleStaleMate, true);
+                }
+            }
+            EndScreen<Object> endScreen = new EndScreen<>(this);
+            if (!possibleStaleMate.contains(kingPos)) {
+                endScreen.endGameScreen(0);
+            }
+            else if (turnData.isWhiteMove()) {
+                endScreen.endGameScreen(false);
+            }
+            else {
+                endScreen.endGameScreen(true);
             }
             Stage board = boardScreen.getPrimaryStage();
             Stage endStage = endScreen.getEndStage();
@@ -242,6 +270,7 @@ public class TurnController {
                 endStage.close();
             });
         }
+        turnPossibleMoves.clear();
     }
 
     public void possibleMoveDisplayCall() {

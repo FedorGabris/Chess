@@ -18,7 +18,7 @@ public class ReplacePawnController {
         this.grid = grid;
     }
 
-    public void replacePawn(int currentRow, int currentCol, int row, int col) { // Lambda usage
+    public void replacePawn(int currentRow, int currentCol, int row, int col) {
         EventHandler<ActionEvent> queenHandler = event -> {
             replacePawnScreen.closeStage();
             grid.setPiece(grid.createPiece(0, whiteMove, currentRow, currentCol, turnController), currentRow, currentCol);

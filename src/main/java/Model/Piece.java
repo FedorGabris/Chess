@@ -89,17 +89,14 @@ public abstract class Piece {
                 turnController.setBlackKing(newKingAddress);
             }
         }
-        grid.movePiece(currentX, currentY, targetX, targetY);
+        if ((currentX * 10) + currentY != (targetX * 10) + targetY) {
+            grid.movePiece(currentX, currentY, targetX, targetY);
+        }
         possibleCheck.checkTest(turnController.getWhiteMove(), grid);
         grid.movePiece(targetX, targetY, currentX, currentY);
         grid.setPiece(holder, targetX, targetY);
         if (holder != null) {
-            if (turnController.getWhiteMove()) {
-                possibleCheck.addBlackPiece(holder);
-            }
-            else {
-                possibleCheck.addWhitePiece(holder);
-            }
+            possibleCheck.addPiece(holder);
         }
         ArrayList<Integer> checks = possibleCheck.getPossibleChecks();
         boolean whiteMove = turnController.getWhiteMove();
