@@ -13,6 +13,7 @@ import java.util.Objects;
 
 public class Board extends Application {
     private GridPane board;
+    private Stage primaryStage;
     private final HashMap<Button, Integer> buttonsMap = new HashMap<>();
 
     public HashMap<Button, Integer> getButtonsMap() {
@@ -21,6 +22,10 @@ public class Board extends Application {
 
     public GridPane getBoard() {
         return board;
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
     }
 
     public static void printImage(GridPane board, int row, int col, String imageLocation) {
@@ -39,6 +44,7 @@ public class Board extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         GridPane board = new GridPane();
         this.board = board;
 

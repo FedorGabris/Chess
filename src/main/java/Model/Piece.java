@@ -74,6 +74,9 @@ public abstract class Piece {
         int oldKingAddress = 100;
         boolean kingIsWhite = true;
         Piece holder = grid.getPiece(targetX, targetY);
+        if (holder != null) {
+            possibleCheck.removePiece(holder);
+        }
         if (grid.getPiece(currentX, currentY) instanceof King) {
             newKingAddress = (targetX * 10) + targetY;
             kingIsWhite = grid.getPiece(currentX, currentY).isWhite;
@@ -90,6 +93,14 @@ public abstract class Piece {
         possibleCheck.checkTest(turnController.getWhiteMove(), grid);
         grid.movePiece(targetX, targetY, currentX, currentY);
         grid.setPiece(holder, targetX, targetY);
+        if (holder != null) {
+            if (turnController.getWhiteMove()) {
+                possibleCheck.addBlackPiece(holder);
+            }
+            else {
+                possibleCheck.addWhitePiece(holder);
+            }
+        }
         ArrayList<Integer> checks = possibleCheck.getPossibleChecks();
         boolean whiteMove = turnController.getWhiteMove();
         int kingPos;

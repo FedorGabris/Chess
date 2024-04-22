@@ -46,7 +46,7 @@ public class NameSelectController {
         nameSelectScreen.stageClose();
         Board board = new Board();
         board.start(new Stage());
-        TurnController turnController = new TurnController(whitePlayerName, blackPlayerName, board.getBoard(), board.getButtonsMap());
+        TurnController turnController = new TurnController(whitePlayerName, blackPlayerName, board.getBoard(), board.getButtonsMap(), board);
         Grid grid = new Grid();
         grid.initializeGrid(turnController);
         turnController.setGrid(grid);

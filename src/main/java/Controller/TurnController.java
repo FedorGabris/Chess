@@ -1,13 +1,14 @@
 package Controller;
 
 import Model.*;
+import View.Board;
+import View.EndScreen;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-
+import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import static View.Board.*;
 
 public class TurnController {
@@ -19,13 +20,17 @@ public class TurnController {
     private final String blackPlayerName;
     private final HashMap<Button, Integer> buttonsMap;
     private ReplacePawnController replacePawnController;
+    private final Board boardScreen;
+    private boolean gameNotOver;
 
-    public TurnController(String whitePlayerName, String blackPlayerName, GridPane board, HashMap<Button, Integer> buttonsMap) {
+    public TurnController(String whitePlayerName, String blackPlayerName, GridPane board, HashMap<Button, Integer> buttonsMap, Board boardScreen) {
         this.whitePlayerName = whitePlayerName;
         this.blackPlayerName = blackPlayerName;
         this.board = board;
         this.buttonsMap = buttonsMap;
         this.replacePawnController = null;
+        this.boardScreen = boardScreen;
+        this.gameNotOver = true;
         setButtons();
     }
 
@@ -68,6 +73,9 @@ public class TurnController {
     }
 
     public void chooseFigure(int col, int row) {
+        if (!gameNotOver) {
+            return;
+        }
         if (this.replacePawnController != null) {
             replacePawnController.closeWindow();
             this.replacePawnController = null;
@@ -218,13 +226,21 @@ public class TurnController {
             }
         }
         if (turnPossibleMoves.isEmpty()) {
-            System.out.println("Check Mate!");
+            this.gameNotOver = false;
+            EndScreen endScreen = new EndScreen();
             if (turnData.isWhiteMove()) {
-                System.out.println(blackPlayerName + " won!");
+                endScreen.endGameScreen(blackPlayerName, false);
             }
             else {
-                System.out.println(whitePlayerName + " won!");
+                endScreen.endGameScreen(whitePlayerName, true);
             }
+            Stage board = boardScreen.getPrimaryStage();
+            Stage endStage = endScreen.getEndStage();
+            Button finishButton = endScreen.getFinishButton();
+            finishButton.setOnAction(actionEvent -> {
+                board.close();
+                endStage.close();
+            });
         }
     }
 
