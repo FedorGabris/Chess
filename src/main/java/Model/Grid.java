@@ -2,6 +2,8 @@ package Model;
 
 import Controller.TurnController;
 
+import java.util.ArrayList;
+
 public class Grid {
     private final Piece[][] grid;
     private final PossibleCheck possibleCheck;
@@ -111,5 +113,32 @@ public class Grid {
         }
         possibleCheck.addPiece(newPiece);
         return newPiece;
+    }
+
+    public boolean insufficientMaterial() {
+        ArrayList <Piece> whitePieces = possibleCheck.getWhitePieces();
+        ArrayList <Piece> blackPieces = possibleCheck.getBlackPieces();
+        int whitePieceWeight = pieceWeight(whitePieces);
+        int blackPieceWeight = pieceWeight(blackPieces);
+        return whitePieceWeight <= 3 && blackPieceWeight <= 3;
+    }
+
+    private int pieceWeight(ArrayList<Piece> pieces) {
+        int weight = 0;
+        for (Piece piece : pieces) {
+            switch (piece.getClass().getSimpleName()) {
+                case "Bishop", "Knight":
+                    weight += 3;
+                    break;
+                case "King":
+                    break;
+                default:
+                    return 10;
+            }
+            if (weight > 3) {
+                return 10;
+            }
+        }
+        return weight;
     }
 }

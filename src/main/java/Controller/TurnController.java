@@ -271,6 +271,18 @@ public class TurnController {
             });
         }
         turnPossibleMoves.clear();
+        if (grid.insufficientMaterial()) {
+            this.gameNotOver = false;
+            EndScreen<Object> endScreen = new EndScreen<>(this);
+            endScreen.endGameScreen(1);
+            Stage board = boardScreen.getPrimaryStage();
+            Stage endStage = endScreen.getEndStage();
+            Button finishButton = endScreen.getFinishButton();
+            finishButton.setOnAction(actionEvent -> {
+                board.close();
+                endStage.close();
+            });
+        }
     }
 
     public void possibleMoveDisplayCall() {

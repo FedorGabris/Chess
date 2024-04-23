@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -39,9 +38,9 @@ public class EndScreen<T> {
     }
 
     public void endGameScreen(T result) {
-        String winnerImageLocation;
+        String winnerImageLocation = null;
         String winner;
-        Label winnerLabel;
+        Label winnerLabel = null;
         if (result instanceof Boolean) {
             boolean whiteWon = (Boolean) result;
             if (whiteWon) {
@@ -54,13 +53,20 @@ public class EndScreen<T> {
             }
             winnerLabel = new Label("Winner: " + winner);
         }
-        else {
-            winnerImageLocation = drawImage;
-            winnerLabel = new Label("Draw");
+        else if (result instanceof Integer drawType){
+            if (drawType == 0) {
+                winnerImageLocation = drawImage;
+                winnerLabel = new Label("Draw: stale mate");
+            }
+            else {
+                winnerImageLocation = drawImage;
+                winnerLabel = new Label("Draw: insufficient material");
+            }
         }
         this.endStage = new Stage();
         endStage.initModality(Modality.APPLICATION_MODAL);
         endStage.setTitle("Game Over");
+        assert winnerImageLocation != null;
         Image winnerImage =new Image(Objects.requireNonNull(EndScreen.class.getResourceAsStream(winnerImageLocation)));
         ImageView imageView = new ImageView(winnerImage);
         imageView.setFitHeight(60);
@@ -70,7 +76,7 @@ public class EndScreen<T> {
         hbox.getChildren().addAll(imageView, winnerLabel, finishButton);
         hbox.setAlignment(Pos.CENTER);
         hbox.setPadding(new Insets(10));
-        Scene scene = new Scene(hbox, 250, 100);
+        Scene scene = new Scene(hbox, 300, 100);
         endStage.setScene(scene);
         endStage.show();
     }
