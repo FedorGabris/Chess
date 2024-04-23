@@ -101,28 +101,22 @@ public class TurnController {
         int buttonValue = (row * 10) + col;
 
         if (currentPosition == 100) {
-            if (piece != null) {
-                if (whiteMove == piece.getIsWhite()) {
-                    pointOutCurrentPiece(board, row, col);
-                    piece.possibleMove(grid, possibleMoves, true);
-                    if (piece instanceof King) {
-                        if (piece.getHasMoved()/* && !turnData.isCheck()*/) {
-                            King king = (King) piece;
-                            king.possibleCastle(grid, possibleMoves);
-                        }
-                    }
-                    else if (piece instanceof Pawn pawn) {
-                        if (whiteMove && row == 3) {
-                            pawn.possibleEnPassant(possibleMoves, lastWhiteMove, lastBlackMove, true, buttonValue);
-                        }
-                        else if (!whiteMove && row == 4) {
-                            pawn.possibleEnPassant(possibleMoves, lastWhiteMove, lastBlackMove, false, buttonValue);
-                        }
-                    }
-                    possibleMoveDisplayCall();
-                    turnData.setCurrentFigure(buttonValue);
+            if (piece != null && whiteMove == piece.getIsWhite()) {
+                pointOutCurrentPiece(board, row, col);
+                piece.possibleMove(grid, possibleMoves, true);
+                if (piece instanceof King king && piece.getHasMoved()) {
+                    king.possibleCastle(grid, possibleMoves);
                 }
-
+                else if (piece instanceof Pawn pawn) {
+                    if (whiteMove && row == 3) {
+                        pawn.possibleEnPassant(possibleMoves, lastWhiteMove, lastBlackMove, true, buttonValue);
+                    }
+                    else if (!whiteMove && row == 4) {
+                        pawn.possibleEnPassant(possibleMoves, lastWhiteMove, lastBlackMove, false, buttonValue);
+                    }
+                }
+                possibleMoveDisplayCall();
+                turnData.setCurrentFigure(buttonValue);
             }
         }
         else if (currentPosition == buttonValue) {
@@ -194,13 +188,11 @@ public class TurnController {
         turnData.setCurrentFigure(100);
         int currentMove;
         if (movingPiece instanceof Pawn) {
-            if (currentCol != newCol) {
-                if (grid.getPiece(newRow, newCol) == null) {
-                    Piece deleter = grid.getPiece(currentRow, newCol);
-                    grid.setNull(currentRow, newCol);
-                    possibleCheck.removePiece(deleter);
-                    removeImage(board, currentRow, newCol);
-                }
+            if (currentCol != newCol && grid.getPiece(newRow, newCol) == null) {
+                Piece deleter = grid.getPiece(currentRow, newCol);
+                grid.setNull(currentRow, newCol);
+                possibleCheck.removePiece(deleter);
+                removeImage(board, currentRow, newCol);
             }
             int rowDiff = newRow - currentRow;
             if (rowDiff == 2 || rowDiff == -2) {
