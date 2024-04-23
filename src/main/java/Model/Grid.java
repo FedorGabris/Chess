@@ -1,7 +1,6 @@
 package Model;
 
 import Controller.TurnController;
-
 import java.util.ArrayList;
 
 public class Grid {
