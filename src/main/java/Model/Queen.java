@@ -21,28 +21,14 @@ public class Queen extends Piece implements PieceFollower{
             int tempX = x + dx[i];
             int tempY = y + dy[i];
             while (tempX >= 0 && tempX <= 7 && tempY >= 0 && tempY <= 7 && grid.getPiece(tempX, tempY) == null) {
-                if (conditionalMoves) {
-                    if (super.CheckExists(grid, x, y, tempX, tempY)) {
-                        super.possibleMoveAction(possibleMoves, tempX, tempY);
-                    }
-                }
-                else {
-                    super.possibleMoveAction(possibleMoves, tempX, tempY);
-                }
+                super.gridMovementPart(conditionalMoves, grid, x, y, tempX, tempY, possibleMoves);
                 tempX += dx[i];
                 tempY += dy[i];
             }
             if (tempX >= 0 && tempX <= 7 && tempY >= 0 && tempY <= 7) {
                 Piece target = grid.getPiece(tempX, tempY);
                 if (this.getIsWhite() != target.getIsWhite()) {
-                    if (conditionalMoves) {
-                        if (super.CheckExists(grid, x, y, tempX, tempY)) {
-                            super.possibleMoveAction(possibleMoves, tempX, tempY);
-                        }
-                    }
-                    else {
-                        super.possibleMoveAction(possibleMoves, tempX, tempY);
-                    }
+                    super.gridMovementPart(conditionalMoves, grid, x, y, tempX, tempY, possibleMoves);
                 }
             }
         }

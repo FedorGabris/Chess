@@ -113,10 +113,10 @@ public class TurnController {
                     }
                     else if (piece instanceof Pawn pawn) {
                         if (whiteMove && row == 3) {
-                            pawn.possibleEnPassant(possibleMoves, lastWhiteMove, lastBlackMove, whiteMove, buttonValue);
+                            pawn.possibleEnPassant(possibleMoves, lastWhiteMove, lastBlackMove, true, buttonValue);
                         }
                         else if (!whiteMove && row == 4) {
-                            pawn.possibleEnPassant(possibleMoves, lastWhiteMove, lastBlackMove, whiteMove, buttonValue);
+                            pawn.possibleEnPassant(possibleMoves, lastWhiteMove, lastBlackMove, false, buttonValue);
                         }
                     }
                     possibleMoveDisplayCall();

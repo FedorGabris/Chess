@@ -17,124 +17,54 @@ public class Pawn extends Piece implements PieceFollower{
         if (this.getIsWhite()) {
             if (getHasMoved()) {
                 if (grid.getPiece(x - 1, y) == null) {
-                    if (conditionalMoves) {
-                        if (super.CheckExists(grid, x, y, x - 1, y)) {
-                            super.possibleMoveAction(possibleMoves, x - 1, y);
-                        }
-                    }
-                    else {
-                        super.possibleMoveAction(possibleMoves, x - 1, y);
-                    }
+                    super.gridMovementPart(conditionalMoves, grid, x, y, x - 1, y, possibleMoves);
                 }
                 if (grid.getPiece(x - 1, y) == null && grid.getPiece(x - 2, y) == null) {
-                    if (conditionalMoves) {
-                        if (super.CheckExists(grid, x, y, x - 2, y)) {
-                            super.possibleMoveAction(possibleMoves, x - 2, y);
-                        }
-                    }
-                    else {
-                        super.possibleMoveAction(possibleMoves, x - 2, y);
-                    }
+                    super.gridMovementPart(conditionalMoves, grid, x, y, x - 2, y, possibleMoves);
                 }
             }
             else {
                 if (grid.getPiece(x - 1, y) == null) {
-                    if (conditionalMoves) {
-                        if (super.CheckExists(grid, x, y, x - 1, y)) {
-                            super.possibleMoveAction(possibleMoves, x - 1, y);
-                        }
-                    }
-                    else {
-                        super.possibleMoveAction(possibleMoves, x - 1, y);
-                    }
+                    super.gridMovementPart(conditionalMoves, grid, x, y, x - 1, y, possibleMoves);
                 }
             }
             if (y - 1 >= 0) {
                 Piece target = grid.getPiece(x - 1, y - 1);
                 if (target != null && this.getIsWhite() != target.getIsWhite()) {
-                    if (conditionalMoves) {
-                        if (super.CheckExists(grid, x, y, x - 1, y - 1)) {
-                            super.possibleMoveAction(possibleMoves, x - 1, y - 1);
-                        }
-                    }
-                    else {
-                        super.possibleMoveAction(possibleMoves, x - 1, y - 1);
-                    }
+                    super.gridMovementPart(conditionalMoves, grid, x, y, x - 1, y - 1, possibleMoves);
                 }
             }
             if (y + 1 <= 7) {
                 Piece target = grid.getPiece(x - 1, y + 1);
                 if (target != null && this.getIsWhite() != target.getIsWhite()) {
-                    if (conditionalMoves) {
-                        if (super.CheckExists(grid, x, y, x - 1, y + 1)) {
-                            super.possibleMoveAction(possibleMoves, x - 1, y + 1);
-                        }
-                    }
-                    else {
-                        super.possibleMoveAction(possibleMoves, x - 1, y + 1);
-                    }
+                    super.gridMovementPart(conditionalMoves, grid, x, y, x - 1, y + 1, possibleMoves);
                 }
             }
         }
         else {
             if (getHasMoved()) {
                 if (grid.getPiece(x + 1, y) == null) {
-                    if (conditionalMoves) {
-                        if (super.CheckExists(grid, x, y, x + 1, y)) {
-                            super.possibleMoveAction(possibleMoves, x + 1, y);
-                        }
-                    }
-                    else {
-                        super.possibleMoveAction(possibleMoves, x + 1, y);
-                    }
+                    super.gridMovementPart(conditionalMoves, grid, x, y, x + 1, y, possibleMoves);
                 }
                 if (grid.getPiece(x + 1, y) == null && grid.getPiece(x + 2, y) == null) {
-                    if (conditionalMoves) {
-                        if (super.CheckExists(grid, x, y, x + 2, y)) {
-                            super.possibleMoveAction(possibleMoves, x + 2, y);
-                        }
-                    }
-                    else {
-                        super.possibleMoveAction(possibleMoves, x + 2, y);
-                    }
+                    super.gridMovementPart(conditionalMoves, grid, x, y, x + 2, y, possibleMoves);
                 }
             }
             else {
                 if (grid.getPiece(x + 1, y) == null) {
-                    if (conditionalMoves) {
-                        if (super.CheckExists(grid, x, y, x + 1, y)) {
-                            super.possibleMoveAction(possibleMoves, x + 1, y);
-                        }
-                    }
-                    else {
-                        super.possibleMoveAction(possibleMoves, x + 1, y);
-                    }
+                    super.gridMovementPart(conditionalMoves, grid, x, y, x + 1, y, possibleMoves);
                 }
             }
             if (y - 1 >= 0) {
                 Piece target = grid.getPiece(x + 1, y - 1);
                 if (target != null && this.getIsWhite() != target.getIsWhite()) {
-                    if (conditionalMoves) {
-                        if (super.CheckExists(grid, x, y, x + 1, y - 1)) {
-                            super.possibleMoveAction(possibleMoves, x + 1, y - 1);
-                        }
-                    }
-                    else {
-                        super.possibleMoveAction(possibleMoves, x + 1, y - 1);
-                    }
+                    super.gridMovementPart(conditionalMoves, grid, x, y, x + 1, y - 1, possibleMoves);
                 }
             }
             if (y + 1 <= 7) {
                 Piece target = grid.getPiece(x + 1, y + 1);
                 if (target != null && this.getIsWhite() != target.getIsWhite()) {
-                    if (conditionalMoves) {
-                        if (super.CheckExists(grid, x, y, x + 1, y + 1)) {
-                            super.possibleMoveAction(possibleMoves, x + 1, y + 1);
-                        }
-                    }
-                    else {
-                        super.possibleMoveAction(possibleMoves, x + 1, y + 1);
-                    }
+                    super.gridMovementPart(conditionalMoves, grid, x, y, x + 1, y + 1, possibleMoves);
                 }
             }
         }
@@ -153,10 +83,10 @@ public class Pawn extends Piece implements PieceFollower{
         }
         else {
             if (buttonValue == lastBlackMove) {
-                if ((buttonValue - 1) * 10 == lastBlackMove) {
+                if ((buttonValue - 1) * 10 == lastWhiteMove) {
                     possibleMoves.add(buttonValue + 9);
                 }
-                if ((buttonValue + 1) * 10 == lastBlackMove) {
+                if ((buttonValue + 1) * 10 == lastWhiteMove) {
                     possibleMoves.add(buttonValue + 11);
                 }
             }

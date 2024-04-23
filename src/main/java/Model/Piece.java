@@ -141,4 +141,15 @@ public abstract class Piece {
 
         executor.shutdown();
     }
+
+    protected void gridMovementPart(boolean conditionalMoves, Grid grid, int currX, int currY, int targetX, int targetY, ArrayList<Integer> possibleMoves) {
+        if (conditionalMoves) {
+            if (CheckExists(grid, currX, currY, targetX, targetY)) {
+                possibleMoveAction(possibleMoves, targetX, targetY);
+            }
+        }
+        else {
+            possibleMoveAction(possibleMoves, targetX, targetY);
+        }
+    }
 }
