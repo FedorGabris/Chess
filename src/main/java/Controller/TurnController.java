@@ -12,6 +12,9 @@ import java.util.Map;
 
 import static View.Board.*;
 
+/**
+ * This is one of the most important classes in this program. It handles the whole turn.
+ */
 public class TurnController {
 
     private Grid grid;
@@ -61,7 +64,7 @@ public class TurnController {
         TurnData.getInstance().setWhiteKingPos(address);
     }
 
-    public void setBlackKing(int address) {
+    public void setBlackKingPos(int address) {
         TurnData.getInstance().setBlackKingPos(address);
     }
 
@@ -73,6 +76,9 @@ public class TurnController {
         return blackPlayerName;
     }
 
+    /**
+     * Called in constructor, sets buttons and their events.
+     */
     private void setButtons() {
         for (Map.Entry<Button, Integer> entry : buttonsMap.entrySet()) {
             Button button = entry.getKey();
@@ -83,6 +89,10 @@ public class TurnController {
         }
     }
 
+    /**
+     * This is called when player, presses a button on the checkerboard, it either shows possible moves, makes a move
+     * if the button is highlighted as possible move, or does nothing if you can not move the pressed piece.
+     */
     public void chooseFigure(int col, int row) {
         if (!gameNotOver) {
             return;
@@ -143,6 +153,11 @@ public class TurnController {
         }
     }
 
+    /**
+     * This is called when movement conditions are met and is finishes the movement, updates positions, updates
+     * checkerboard, and the grid. When the movement is done, it finds all possible moves of the opponent player and
+     * if he has none, ends the game.
+     */
     public void finishMovement(int newRow, int newCol) {
         TurnData turnData = TurnData.getInstance();
         boolean whiteMove = turnData.isWhiteMove();
@@ -165,7 +180,7 @@ public class TurnController {
             }
             else {
                 kingPos = getBlackKingPos();
-                setBlackKing(buttonValue);
+                setBlackKingPos(buttonValue);
             }
             if (buttonValue == kingPos + 2) {
                 grid.movePiece(newRow, 7, newRow, 5);

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class Grid {
     private final Piece[][] grid;
     private final PossibleCheck possibleCheck;
-    WhitePieceFactory newWhitePiece;
-    BlackPieceFactory newBlackPiece;
+    private WhitePieceFactory newWhitePiece;
+    private BlackPieceFactory newBlackPiece;
 
     public Grid() {
         grid = new Piece[8][8];

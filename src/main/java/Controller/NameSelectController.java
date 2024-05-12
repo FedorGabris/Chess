@@ -8,6 +8,9 @@ import View.NameSelectScreen;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+/**
+ * This class is created at the start of the game, and it handles picking of names. Then is starts the game.
+ */
 public class NameSelectController {
     private String whitePlayerName;
     private String blackPlayerName;
@@ -42,7 +45,7 @@ public class NameSelectController {
 
     }
 
-    public void startGame() {
+    private void startGame() {
         nameSelectScreen.stageClose();
         Board board = new Board();
         board.start(new Stage());

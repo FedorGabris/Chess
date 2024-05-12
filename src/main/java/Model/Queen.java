@@ -9,6 +9,9 @@ public class Queen extends Piece implements PieceFollower{
         super(isWhite, row, col, location, turnController, possibleCheck);
     }
 
+    /**
+     * This method checks finds all moves this Queen can make and adds them to the possibleMoves arrayList.
+     */
     @Override
     public void possibleMove(Grid grid, ArrayList<Integer> possibleMoves, boolean conditionalMoves) {
         int[] dx = {1, 1, -1, -1, 1, -1, 0, 0};

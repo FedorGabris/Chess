@@ -6,6 +6,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * This is an abstract class for all chess pieces, it has all the attributes and movement methods each piece needs.
+ */
 public abstract class Piece {
     private final boolean isWhite;
     private boolean hasMoved;
@@ -64,11 +67,20 @@ public abstract class Piece {
         return turnController;
     }
 
+    /**
+     * Add a position to the list of possible moves.
+     */
     protected void possibleMoveAction(ArrayList<Integer> possibleMoves, int row, int col) {
         int possibleMove = (row * 10) + col;
         possibleMoves.add(possibleMove);
     }
 
+    /**
+     * This method moves piece from current position to target position, then runs all possible moves, and checks
+     * whether the move is possible. Then it returns the piece to original place and returns a boolean value that says
+     * whether is possible or not.
+     * @return true if move possible, and false if not possible
+     */
     protected boolean CheckExists(Grid grid, int currentX, int currentY, int targetX, int targetY) {
         int newKingAddress = 100;
         int oldKingAddress = 100;
@@ -86,7 +98,7 @@ public abstract class Piece {
             }
             else {
                 oldKingAddress = turnController.getBlackKingPos();
-                turnController.setBlackKing(newKingAddress);
+                turnController.setBlackKingPos(newKingAddress);
             }
         }
         if ((currentX * 10) + currentY != (targetX * 10) + targetY) {
@@ -114,7 +126,7 @@ public abstract class Piece {
                 turnController.setWhiteKingPos(oldKingAddress);
             }
             else {
-                turnController.setBlackKing(oldKingAddress);
+                turnController.setBlackKingPos(oldKingAddress);
             }
         }
         return !isCheck;

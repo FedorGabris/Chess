@@ -10,6 +10,9 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import java.util.Objects;
 
+/**
+ * This class handles replacing pawn. Gui class.
+ */
 public class ReplacePawnScreen {
     private final boolean whiteTurn;
     private Stage pickPieceStage;

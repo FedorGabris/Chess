@@ -2,6 +2,10 @@ package Model;
 
 import java.util.ArrayList;
 
+/**
+ * This class keeps track of pieces that are on the board, also handles checks, when an attempt of movement is made, it
+ * goes also through this class, and it adds all checks opponent can make into arrayList.
+ */
 public class PossibleCheck {
     private final ArrayList<Piece> whitePieces;
     private final ArrayList<Piece> blackPieces;

@@ -11,6 +11,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Screen that handles the Picking of names. Gui class.
+ */
 public class NameSelectScreen {
 
     private final Stage stage;

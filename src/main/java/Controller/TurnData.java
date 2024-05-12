@@ -2,6 +2,9 @@ package Controller;
 
 import java.util.ArrayList;
 
+/**
+ * This class holds all the info about current turn, it is build as singleton.
+ */
 public class TurnData {
     private static TurnData instance;
     private boolean whiteMove;

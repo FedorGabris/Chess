@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * This is the main gui class, displays the checkerboard.
+ */
 public class Board extends Application {
     private GridPane board;
     private Stage primaryStage;

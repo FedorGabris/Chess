@@ -9,6 +9,9 @@ public class Pawn extends Piece implements PieceFollower{
         super(isWhite, row, col, location, turnController, possibleCheck);
     }
 
+    /**
+     * This method checks finds all moves this Pawn can make and adds them to the possibleMoves arrayList.
+     */
     @Override
     public void possibleMove(Grid grid, ArrayList<Integer> possibleMoves, boolean conditionalMoves) {
         int x = this.getRow();
@@ -70,6 +73,9 @@ public class Pawn extends Piece implements PieceFollower{
         }
     }
 
+    /**
+     * This method handles possible EnPassant, if the move is possible, it adds it to the possibleMoves arrayList.
+     */
     public void possibleEnPassant(ArrayList<Integer> possibleMoves, int lastWhiteMove, int lastBlackMove, boolean whiteMove, int buttonValue) {
         if (whiteMove) {
             if (buttonValue == lastWhiteMove) {

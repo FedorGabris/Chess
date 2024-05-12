@@ -9,6 +9,9 @@ public class King extends Piece implements PieceFollower{
         super(isWhite, row, col, location, turnController, possibleCheck);
     }
 
+    /**
+     * This method checks finds all moves this King can make and adds them to the possibleMoves arrayList.
+     */
     @Override
     public void possibleMove(Grid grid, ArrayList<Integer> possibleMoves, boolean conditionalMoves) {
         int[] dx = {1, -1, 1, -1, 1, -1, 0, 0};
@@ -32,6 +35,9 @@ public class King extends Piece implements PieceFollower{
         }
     }
 
+    /**
+     * This method handles possible castle, it the move is possible, it adds it to the possibleMoves arrayList.
+     */
     public void possibleCastle(Grid grid, ArrayList<Integer> possibleMoves) {
         int row = getRow();
         int col = getCol();

@@ -13,6 +13,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.util.Objects;
 
+/**
+ * This class handles the screen that pops up when the game ends. Gui class.
+ * @param <T> T can be either boolean, that would tell the player that won, or it can be an int, that tell it is a draw
+ *         and the type of draw.
+ */
 public class EndScreen<T> {
     private final String whiteKingImage;
     private final String blackKingImage;
