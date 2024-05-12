@@ -4,4 +4,6 @@ module Game {
 
     exports View;
     exports Model;
+    exports Controller;
+    exports Controller.Exceptions;
 }
